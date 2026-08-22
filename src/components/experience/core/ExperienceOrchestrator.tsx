@@ -50,28 +50,39 @@ export function ExperienceOrchestrator({
 }: ExperienceOrchestratorProps) {
   const { state, dispatch } = useExperienceContext();
 
-  // Check if intro should be shown (session-based)
-  const shouldShowIntro = () => {
-    if (typeof window === "undefined") return false;
-    if (!enableIntro) return false;
-    const hasShown = sessionStorage.getItem(sessionKey);
-    return !hasShown;
-  };
+  // Initialize with intro enabled for consistent SSR/client first render
+  // Session check happens in useEffect to avoid hydration mismatch
+  const [showIntro, setShowIntro] = useState(enableIntro);
+  const [showContent, setShowContent] = useState(false);
 
-  const [showIntro, setShowIntro] = useState(shouldShowIntro);
-  const [showContent, setShowContent] = useState(!shouldShowIntro());
-
-  // Initialize intro if needed
+  // Initialize intro and check session storage after hydration
   useEffect(() => {
-    if (showIntro) {
+    // Check if intro was already shown in this session
+    if (typeof window !== "undefined" && enableIntro) {
+      const hasShown = sessionStorage.getItem(sessionKey);
+      
+      if (hasShown) {
+        // Skip intro - already seen this session
+        setShowIntro(false);
+        setShowContent(true);
+        dispatch({ type: "INTRO_COMPLETE" });
+        dispatch({ type: "TRANSITION_COMPLETE" });
+        dispatch({ type: "ENABLE_GLOBAL_EFFECTS" });
+        return;
+      }
+    }
+
+    // Show intro or skip if disabled
+    if (showIntro && enableIntro) {
       dispatch({ type: "START_INTRO" });
     } else {
-      // Skip directly to active state
+      // Intro disabled - skip directly to active state
+      setShowContent(true);
       dispatch({ type: "INTRO_COMPLETE" });
       dispatch({ type: "TRANSITION_COMPLETE" });
       dispatch({ type: "ENABLE_GLOBAL_EFFECTS" });
     }
-  }, [showIntro, dispatch]);
+  }, [showIntro, dispatch, enableIntro, sessionKey]);
   const handleIntroComplete = () => {
     // Mark as shown in session
     if (typeof window !== "undefined") {
@@ -88,13 +99,13 @@ export function ExperienceOrchestrator({
     setTimeout(() => {
       dispatch({ type: "TRANSITION_COMPLETE" });
       setShowIntro(false);
-    }, 700);
+    }, 400);
 
     // Enable global effects after transition
     setTimeout(() => {
       dispatch({ type: "ENABLE_CURSOR" });
       dispatch({ type: "ENABLE_GLOBAL_EFFECTS" });
-    }, 1000);
+    }, 600);
   };
 
   return (
@@ -128,7 +139,7 @@ export function ExperienceOrchestrator({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{
-              duration: 0.7,
+              duration: 0.4,
               ease: [0.16, 1, 0.3, 1],
             }}
             className="min-h-screen"

@@ -1,4 +1,9 @@
+"use client";
+
 import { motion, AnimatePresence } from "framer-motion";
+import { CircularLogo } from "./CircularLogo";
+import { GoldButton } from "@/components/ui/GoldButton";
+import Link from "next/link";
 
 interface HeroIdentityProps {
   phase: "light" | "texture" | "truth" | "reveal" | "identity";
@@ -6,63 +11,82 @@ interface HeroIdentityProps {
 
 /**
  * HeroIdentity — Phase 5: L'identité NOOREA
- * Responsabilité : Logo NOOREA + tagline + CTA découvrir (8-10s)
+ * Responsabilité : Logo circulaire NOOREA + nouvelle tagline + CTA
+ * 
+ * NEW DESIGN:
+ * - Logo in circular gradient composition
+ * - Tagline: "Révélez la lumière qui vit en votre peau"
+ * - Two CTAs: DÉCOUVRIR NOOREA, EXPLORER LA COLLECTION
  */
 export function HeroIdentity({ phase }: HeroIdentityProps) {
   return (
     <AnimatePresence>
       {phase === "identity" && (
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.5 }}
-          className="absolute inset-0 flex items-end pb-16 md:items-center md:pb-0"
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -40 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="absolute inset-0 flex flex-col items-center justify-center px-6 md:px-12 lg:px-16"
         >
-          <div className="relative z-20 w-full px-6 md:px-12 lg:px-16">
-            <div className="max-w-2xl space-y-8 md:space-y-12">
-              {/* Brand name */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-              >
-                <h2 className="mb-4 text-5xl font-light tracking-tighter text-white md:text-6xl lg:text-7xl">
-                  NOOREA
-                </h2>
-                <div className="h-px w-20 bg-[var(--color-goldLight)]" />
-              </motion.div>
+          <div className="max-w-4xl text-center space-y-12">
+            
+            {/* Logo in Circular Composition */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <CircularLogo size="xl" animate={false} />
+            </motion.div>
 
-              {/* Tagline */}
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.5 }}
-                className="text-2xl font-light leading-relaxed text-[var(--color-sand)] md:text-3xl lg:text-4xl"
-              >
-                L&apos;éclat capturé.
-              </motion.p>
+            {/* Brand Name */}
+            <motion.h2
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="text-5xl font-light tracking-tighter text-white md:text-6xl lg:text-7xl"
+            >
+              NOOREA
+            </motion.h2>
 
-              {/* Editorial link */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.8 }}
-              >
-                <button
-                  onClick={() => document.getElementById("scene2")?.scrollIntoView({ behavior: "smooth" })}
-                  className="group inline-flex items-center gap-3 border-b border-[var(--color-goldLight)]/30 pb-2 text-lg font-light tracking-wide text-white transition-all duration-500 hover:border-[var(--color-goldLight)] md:text-xl"
-                >
-                  Découvrir
-                  <motion.span
-                    className="inline-block"
-                    animate={{ x: [0, 4, 0] }}
-                    transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                  >
-                    →
-                  </motion.span>
-                </button>
-              </motion.div>
-            </div>
+            {/* Main Tagline - NEW */}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+              className="text-xl md:text-2xl lg:text-3xl text-[var(--color-sand)] leading-relaxed font-light"
+            >
+              {"« Révélez la lumière qui vit en votre peau."}
+            </motion.p>
+
+            {/* Subtitle */}
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.7 }}
+              className="text-lg md:text-xl text-[var(--color-taupe)] max-w-2xl mx-auto"
+            >
+              Des rituels de soin pensés pour nourrir, révéler et célébrer l&apos;éclat unique de chaque peau.
+            </motion.p>
+
+            {/* CTA Buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.8 }}
+              className="flex flex-col sm:flex-row gap-4 justify-center mt-8"
+            >
+              <Link href="/collection">
+                <GoldButton size="lg" variant="primary">
+                  EXPLORER LA COLLECTION
+                </GoldButton>
+              </Link>
+              
+              <GoldButton size="lg" variant="outline" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
+                DÉCOUVRIR NOOREA
+              </GoldButton>
+            </motion.div>
           </div>
         </motion.div>
       )}

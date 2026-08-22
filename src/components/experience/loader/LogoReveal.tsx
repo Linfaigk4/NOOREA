@@ -12,12 +12,11 @@ export interface LogoRevealProps {
  * LogoReveal
  * 
  * Premium logo reveal animation with golden glow and light sweep.
- * Part of intro loader sequence.
+ * Part of intro loader sequence (optimized for speed).
  * 
  * Timeline:
- * 0.0s - 0.5s: Logo fade in
- * 0.5s - 1.2s: Glow layer appears
- * 1.0s - 1.8s: Light sweep across
+ * 0.0s - 0.4s: Logo fade in
+ * 0.3s - 0.8s: Glow layer appears + Light sweep
  */
 export function LogoReveal({ onComplete }: LogoRevealProps) {
   const shouldReduceMotion = useReducedMotion();
@@ -44,7 +43,7 @@ export function LogoReveal({ onComplete }: LogoRevealProps) {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{
-            duration: 0.5,
+            duration: 0.4,
             ease: [0.16, 1, 0.3, 1],
           }}
           className="relative z-10"
@@ -59,8 +58,8 @@ export function LogoReveal({ onComplete }: LogoRevealProps) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{
-            delay: 0.5,
-            duration: 0.7,
+            delay: 0.3,
+            duration: 0.5,
             ease: "easeOut",
           }}
           className="absolute inset-0 -z-10"
@@ -77,18 +76,18 @@ export function LogoReveal({ onComplete }: LogoRevealProps) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{
-            delay: 1.0,
-            duration: 0.3,
+            delay: 0.3,
+            duration: 0.2,
           }}
           onAnimationComplete={() => {
-            setTimeout(() => onComplete?.(), 500);
+            setTimeout(() => onComplete?.(), 200);
           }}
           className="absolute inset-0 -z-20 overflow-hidden"
         >
           <LightSweep
             color="rgba(255, 255, 255, 0.15)"
             direction="horizontal"
-            duration={0.8}
+            duration={0.5}
             delay={0}
           />
         </motion.div>

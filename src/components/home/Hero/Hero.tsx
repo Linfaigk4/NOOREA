@@ -13,22 +13,22 @@ export type HeroPhase = "light" | "texture" | "truth" | "reveal" | "identity";
  * Hero — Scène 1: L'entrée immersive
  * La lumière dorée révèle NOOREA
  * 
- * Timeline:
- * 0-2s: light (peau + lumière)
- * 2-4s: texture (détails révélés)
- * 4-6s: truth (message "La lumière ne ment jamais")
- * 6-8s: reveal (produit entre dans le cadre)
- * 8-10s: identity (NOOREA + tagline + CTA)
+ * Timeline (optimized for speed):
+ * 0-1s: light (peau + lumière)
+ * 1-2s: texture (détails révélés)
+ * 2-2.5s: truth (message "La lumière ne ment jamais")
+ * 2.5-4s: reveal (produit entre dans le cadre)
+ * 4-5s: identity (NOOREA + tagline + CTA)
  */
 export function Hero() {
   const [phase, setPhase] = useState<HeroPhase>("light");
 
   useEffect(() => {
     const timers = [
-      setTimeout(() => setPhase("texture"), 2000),
-      setTimeout(() => setPhase("truth"), 4000),
-      setTimeout(() => setPhase("reveal"), 6000),
-      setTimeout(() => setPhase("identity"), 8000),
+      setTimeout(() => setPhase("texture"), 1000),
+      setTimeout(() => setPhase("truth"), 2000),
+      setTimeout(() => setPhase("reveal"), 2500),
+      setTimeout(() => setPhase("identity"), 4000),
     ];
     return () => timers.forEach(clearTimeout);
   }, []);

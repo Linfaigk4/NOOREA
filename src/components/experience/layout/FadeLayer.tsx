@@ -48,7 +48,7 @@ export function FadeLayer({
         backgroundColor,
         pointerEvents: show ? "auto" : "none",
       }}
-      className={`fixed inset-0 z-40 ${className}`}
+      className={`fixed inset-0 ${className}`}
     >
       {children}
     </motion.div>

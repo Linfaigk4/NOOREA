@@ -249,6 +249,7 @@ export default function PlaygroundPage() {
         show={showFadeLayer}
         duration={0.4}
         backgroundColor="rgba(26, 26, 26, 0.95)"
+        className="z-50"
       >
         <div className="flex h-full items-center justify-center">
           <div className="text-center text-white">

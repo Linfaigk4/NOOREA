@@ -6,17 +6,18 @@ import Link from "next/link";
 import { useState } from "react";
 import { products } from "@/data/products";
 import { getProductSlug } from "@/lib/slugify";
+import { GoldButton } from "@/components/ui/GoldButton";
 
 /**
  * CollectionPage — La Collection NOOREA
  * 
  * Premium editorial product grid showcasing all 8 NOOREA products.
- * Editorial asymmetric layout avoiding e-commerce aesthetic.
+ * Enhanced with golden gradient system for conversion focus.
  * 
  * Structure:
  * - Hero with title and philosophy
- * - Lightweight category filter
- * - Product grid with hover interactions
+ * - Lightweight category filter with gold gradient active state
+ * - Product grid with enhanced CTAs
  * - Golden glow effects on hover
  * - Links to individual product pages
  */
@@ -62,11 +63,11 @@ export function CollectionPage() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="mb-12 md:mb-16"
           >
-            <div className="h-px w-16 bg-[var(--color-goldLight)] md:w-20" />
+            <div className="h-px w-16 bg-gradient-to-r from-[var(--color-gold-dark)] via-[var(--color-gold)] to-[var(--color-gold-light)] md:w-20" />
             <p className="mt-4 text-xs font-light tracking-[0.2em] text-[var(--color-taupe)] md:text-sm">
               LA COLLECTION
             </p>
-          </motion.div>
+          </div>
 
           {/* Title */}
           <motion.h1
@@ -91,7 +92,7 @@ export function CollectionPage() {
             prendre soin de soi.
           </motion.p>
 
-          {/* Category Filter — Discreet and Editorial */}
+          {/* Category Filter — Discreet and Editorial with Gold Active State */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -102,10 +103,10 @@ export function CollectionPage() {
               <button
                 key={filter}
                 onClick={() => setActiveFilter(filter)}
-                className={`group relative overflow-hidden rounded-full px-6 py-2 text-sm font-light tracking-wide transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-goldLight)] md:px-8 md:py-3 md:text-base ${
+                className={`group relative overflow-hidden rounded-full px-6 py-2 text-sm font-light tracking-wide transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-gold)] md:px-8 md:py-3 md:text-base ${
                   activeFilter === filter
-                    ? "bg-[var(--color-goldLight)]/15 text-[var(--color-black)] border border-[var(--color-goldLight)]/40"
-                    : "bg-white/40 text-[var(--color-taupe)] border border-[var(--color-taupe)]/20 hover:border-[var(--color-goldLight)]/30 hover:text-[var(--color-black)]"
+                    ? "gold-gradient-bg text-[var(--color-black)] shadow-lg shadow-[var(--color-gold)]/20"
+                    : "bg-white/40 text-[var(--color-taupe)] hover:text-[var(--color-black)]"
                 }`}
               >
                 <span className="relative z-10">{filter}</span>
@@ -204,14 +205,14 @@ export function CollectionPage() {
                       </div>
 
                       {/* Hover scale container effect */}
-                      <div className="absolute inset-0 rounded-2xl border border-[var(--color-taupe)]/0 transition-colors duration-500 group-hover:border-[var(--color-goldLight)]/20" />
+                      <div className="absolute inset-0 rounded-2xl border border-[var(--color-taupe)]/0 transition-colors duration-500 group-hover:border-[var(--color-gold)]/20" />
                     </div>
 
                     {/* Product Info */}
                     <div className="space-y-3">
                       {/* Category */}
                       <motion.p
-                        className="text-xs font-light tracking-[0.2em] text-[var(--color-taupe)] transition-colors duration-300 group-hover:text-[var(--color-goldLight)] md:text-sm"
+                        className="text-xs font-light tracking-[0.2em] text-[var(--color-taupe)] transition-colors duration-300 group-hover:text-[var(--color-gold)]"
                       >
                         {product.typeFr.toUpperCase()}
                       </motion.p>
@@ -256,7 +257,7 @@ export function CollectionPage() {
                         initial={{ scaleX: 0 }}
                         whileHover={{ scaleX: 1 }}
                         transition={{ duration: 0.3 }}
-                        className="h-px origin-left bg-[var(--color-goldLight)]"
+                        className="h-px origin-left bg-gradient-to-r from-[var(--color-gold-dark)] via-[var(--color-gold)] to-[var(--color-gold-light)]"
                       />
                     </div>
                   </Link>
@@ -274,11 +275,11 @@ export function CollectionPage() {
             className="mt-32 flex justify-center md:mt-40 lg:mt-48"
           >
             <div className="flex items-center gap-4">
-              <div className="h-px w-12 bg-[var(--color-goldLight)]" />
+              <div className="h-px w-12 bg-gradient-to-r from-[var(--color-gold-dark)] via-[var(--color-gold)] to-[var(--color-gold-light)]" />
               <span className="text-xs font-light tracking-[0.3em] text-[var(--color-taupe)] md:text-sm">
                 NOOREA
               </span>
-              <div className="h-px w-12 bg-[var(--color-goldLight)]" />
+              <div className="h-px w-12 bg-gradient-to-r from-[var(--color-gold-dark)] via-[var(--color-gold)] to-[var(--color-gold-light)]" />
             </div>
           </motion.div>
 
