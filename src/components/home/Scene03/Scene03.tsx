@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { products } from "@/data/products";
@@ -222,7 +223,7 @@ export function Scene03() {
                     whileHover={{ x: 4 }}
                     transition={{ duration: 0.3 }}
                   >
-                    →
+                    <ArrowRight size={20} />
                   </motion.span>
                 </Link>
               </motion.div>
@@ -339,7 +340,7 @@ export function Scene03() {
                     whileHover={{ x: 4 }}
                     transition={{ duration: 0.3 }}
                   >
-                    →
+                    <ArrowRight size={18} />
                   </motion.span>
                 </Link>
               </div>

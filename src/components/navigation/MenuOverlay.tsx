@@ -211,23 +211,47 @@ export function MenuOverlay({ isOpen, onClose }: MenuOverlayProps) {
                     />
                   </Link>
 
-                  <button
-                    onClick={() => {
-                      onClose();
-                      setTimeout(() => {
-                        document.getElementById("scene4")?.scrollIntoView({ behavior: "smooth" });
-                      }, 300);
-                    }}
-                    className="group block w-full text-left text-4xl font-light tracking-tight text-white transition-opacity duration-300 hover:opacity-60 md:text-5xl lg:text-6xl"
+                  <Link
+                    href="/notre-histoire"
+                    onClick={onClose}
+                    className="group block text-4xl font-light tracking-tight text-white transition-opacity duration-300 hover:opacity-60 md:text-5xl lg:text-6xl"
                   >
-                    L&apos;Univers
+                    Notre Histoire
                     <motion.span
                       initial={{ scaleX: 0 }}
                       whileHover={{ scaleX: 1 }}
                       transition={{ duration: 0.3 }}
                       className="mt-2 block h-px w-full origin-left bg-[var(--color-goldLight)]"
                     />
-                  </button>
+                  </Link>
+
+                  <Link
+                    href="/engagements"
+                    onClick={onClose}
+                    className="group block text-4xl font-light tracking-tight text-white transition-opacity duration-300 hover:opacity-60 md:text-5xl lg:text-6xl"
+                  >
+                    Engagements
+                    <motion.span
+                      initial={{ scaleX: 0 }}
+                      whileHover={{ scaleX: 1 }}
+                      transition={{ duration: 0.3 }}
+                      className="mt-2 block h-px w-full origin-left bg-[var(--color-goldLight)]"
+                    />
+                  </Link>
+
+                  <Link
+                    href="/journal"
+                    onClick={onClose}
+                    className="group block text-4xl font-light tracking-tight text-white transition-opacity duration-300 hover:opacity-60 md:text-5xl lg:text-6xl"
+                  >
+                    Journal
+                    <motion.span
+                      initial={{ scaleX: 0 }}
+                      whileHover={{ scaleX: 1 }}
+                      transition={{ duration: 0.3 }}
+                      className="mt-2 block h-px w-full origin-left bg-[var(--color-goldLight)]"
+                    />
+                  </Link>
                 </motion.nav>
 
                 {/* Divider */}

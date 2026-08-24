@@ -1,45 +1,30 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { HeroBackground } from "./HeroBackground";
-import { HeroTruth } from "./HeroTruth";
 import { HeroProduct } from "./HeroProduct";
 import { HeroIdentity } from "./HeroIdentity";
 import { HeroScrollIndicator } from "./HeroScrollIndicator";
 
-export type HeroPhase = "light" | "texture" | "truth" | "reveal" | "identity";
+export type HeroPhase = "identity";
 
 /**
- * Hero — Scène 1: L'entrée immersive
- * La lumière dorée révèle NOOREA
+ * Hero — Composition immédiate selon maquette de référence
  * 
- * Timeline (optimized for speed):
- * 0-1s: light (peau + lumière)
- * 1-2s: texture (détails révélés)
- * 2-2.5s: truth (message "La lumière ne ment jamais")
- * 2.5-4s: reveal (produit entre dans le cadre)
- * 4-5s: identity (NOOREA + tagline + CTA)
+ * Structure:
+ * - Grand logo circulaire en haut à gauche
+ * - Titre NOOREA imposant
+ * - Accroche centrée
+ * - 3 CTA alignés horizontalement
+ * - Produits éclairés à droite (35-40% largeur)
+ * - Ambiance noir chaud + beige + or dégradé
  */
 export function Hero() {
-  const [phase, setPhase] = useState<HeroPhase>("light");
-
-  useEffect(() => {
-    const timers = [
-      setTimeout(() => setPhase("texture"), 1000),
-      setTimeout(() => setPhase("truth"), 2000),
-      setTimeout(() => setPhase("reveal"), 2500),
-      setTimeout(() => setPhase("identity"), 4000),
-    ];
-    return () => timers.forEach(clearTimeout);
-  }, []);
-
   return (
-    <section id="scene1" className="relative h-screen overflow-hidden bg-[var(--color-black)]">
-      <HeroBackground phase={phase} />
-      <HeroTruth phase={phase} />
-      <HeroProduct phase={phase} />
-      <HeroIdentity phase={phase} />
-      <HeroScrollIndicator phase={phase} />
+    <section id="scene1" className="relative h-screen overflow-hidden bg-gradient-to-br from-[#1a0f0a] via-[#1a1a1a] to-[#2b2b2b]">
+      <HeroBackground phase="identity" />
+      <HeroProduct phase="identity" />
+      <HeroIdentity phase="identity" />
+      <HeroScrollIndicator phase="identity" />
     </section>
   );
 }

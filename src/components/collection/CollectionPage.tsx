@@ -67,7 +67,7 @@ export function CollectionPage() {
             <p className="mt-4 text-xs font-light tracking-[0.2em] text-[var(--color-taupe)] md:text-sm">
               LA COLLECTION
             </p>
-          </div>
+          </motion.div>
 
           {/* Title */}
           <motion.h1

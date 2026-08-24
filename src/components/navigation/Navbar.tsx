@@ -1,85 +1,172 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
+import Image from "next/image";
 import { useEffect, useState, useCallback } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { MenuOverlay } from "./MenuOverlay";
+import { MessageCircle, Menu } from "lucide-react";
+import { createWhatsAppUrl } from "@/data/constants";
 
 /**
- * Navbar — Navigation immersive NOOREA
+ * Navbar — Navigation complète NOOREA selon maquette de référence
  * 
- * Comportement:
- * - Invisible pendant l'animation Hero (0-10s)
- * - Apparaît progressivement après la fin du Hero
- * - S'adapte aux différentes sections (dark/light)
- * - Breadcrumb contextuel sur /collection et product pages
- * - Reste accessible au scroll
- * - Menu hamburger fonctionnel
+ * Structure:
+ * - Logo officiel à gauche
+ * - Navigation centrale: ACCUEIL, COLLECTION, NOTRE HISTOIRE, ENGAGEMENTS, JOURNAL
+ * - Partie droite: [WhatsApp icon] CONTACTEZ-NOUS + Menu hamburger
  */
 export function Navbar() {
-  const [isHeroComplete, setIsHeroComplete] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { scrollY } = useScroll();
   const pathname = usePathname();
   
-  // Détection de la section actuelle pour adapter le style
   const [currentSection, setCurrentSection] = useState<"dark" | "light">("dark");
 
-  // Détection du contexte de navigation
   const isHomePage = pathname === "/";
-  const isCollectionPage = pathname === "/collection";
-  const isProductPage = pathname?.startsWith("/collection/") && pathname !== "/collection";
 
+  // Memoized scroll handler
+  const handleScroll = useCallback(() => {
+    const scrollPosition = window.scrollY;
+    const windowHeight = window.innerHeight;
+    
+    const scene4 = document.getElementById("scene4");
+    const scene7 = document.getElementById("scene7");
+    
+    if (scene7 && scrollPosition >= scene7.offsetTop - 100) {
+      setCurrentSection("dark");
+    } else if (scene4 && scrollPosition >= scene4.offsetTop - 100 && scrollPosition < (scene4.offsetTop + windowHeight)) {
+      setCurrentSection("dark");
+    } else if (scrollPosition > windowHeight) {
+      setCurrentSection("light");
+    } else {
+      setCurrentSection("dark");
+    }
+  }, []);
+
+  // Visibility: immédiate sur toutes les pages
   useEffect(() => {
-    // La navbar apparaît immédiatement sur les pages non-homepage
-    // Skip lint warning for immediate state initialization
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     if (!isHomePage) {
-      setIsHeroComplete(true);
+      setIsVisible(true);
       setCurrentSection("light");
       return;
     }
 
-    // Sur homepage, attend 7s (fin animation Hero optimisée)
-    const heroTimer = setTimeout(() => {
-      setIsHeroComplete(true);
-    }, 7000);
-
-    return () => clearTimeout(heroTimer);
+    // Sur homepage, visible immédiatement (pas d'attente)
+    setIsVisible(true);
   }, [isHomePage]);
 
+  // Scroll listener for section detection
   useEffect(() => {
-    // Sur pages collection/product, toujours light
-    // Skip lint warning for immediate state initialization
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     if (!isHomePage) {
       setCurrentSection("light");
       return;
     }
 
-    const handleScroll = useCallback(() => {
-      const scrollPosition = window.scrollY;
-      const windowHeight = window.innerHeight;
-      
-      // Simplification: détection basée sur sections DOM réelles
-      const scene4 = document.getElementById("scene4");
-      const scene7 = document.getElementById("scene7");
-      
-      if (scene7 && scrollPosition >= scene7.offsetTop - 100) {
-        // Scene07+ = dark
-        setCurrentSection("dark");
-      } else if (scene4 && scrollPosition >= scene4.offsetTop - 100 && scrollPosition < (scene4.offsetTop + windowHeight)) {
-        // Scene04 = dark
-        setCurrentSection("dark");
-      } else if (scrollPosition > windowHeight) {
-        // Scene02-Scene06 (mostly light)
-        setCurrentSection("light");
-      } else {
-        // Hero = dark
-        setCurrentSection("dark");
-      }
-    }, []);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
 
-    window.addEventListener("scroll", handleScroll);
-    handleScroll(); // Initial check
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [isHomePage, handleScroll]);
+
+  const navLinks = [
+    { href: "/", label: "ACCUEIL" },
+    { href: "/collection", label: "COLLECTION" },
+    { href: "/notre-histoire", label: "NOTRE HISTOIRE" },
+    { href: "/engagements", label: "ENGAGEMENTS" },
+    { href: "/journal", label: "JOURNAL" },
+  ];
+
+  return (
+    <motion.nav
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: isVisible ? 0 : -100, opacity: isVisible ? 1 : 0 }}
+      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      className={`fixed top-0 left-0 right-0 z-[100] transition-colors duration-300 ${
+        currentSection === "dark" ? "bg-[rgba(26,26,26,0.9)] backdrop-blur-md" : "bg-white/90 backdrop-blur-md"
+      }`}
+    >
+      <div className="mx-auto max-w-7xl px-6 py-4 md:px-12 lg:px-16">
+        <div className="flex items-center justify-between gap-8">
+          
+          {/* Logo à gauche */}
+          <Link
+            href="/"
+            className="relative h-10 w-auto flex items-center transition-opacity duration-300 hover:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C9952E] shrink-0"
+            aria-label="NOOREA - Accueil"
+          >
+            <Image
+              src={currentSection === "dark" ? "/NOREA-ASSETS/brand/logo-white.png" : "/NOREA-ASSETS/brand/logo.png"}
+              alt="NOOREA"
+              height={40}
+              width={120}
+              priority
+              className="object-contain h-10 w-auto"
+            />
+          </Link>
+
+          {/* Navigation centrale — Desktop uniquement */}
+          <nav className="hidden lg:flex items-center gap-6 xl:gap-8 flex-1 justify-center">
+            {navLinks.map((link) => {
+              const isActive = pathname === link.href;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`text-sm font-medium tracking-wider transition-all duration-300 hover:opacity-80 ${
+                    currentSection === "dark" 
+                      ? isActive 
+                        ? "text-[#F5D77A]" 
+                        : "text-white"
+                      : isActive
+                        ? "text-[#C9952E]"
+                        : "text-[#2b2b2b]"
+                  }`}
+                  style={{
+                    textTransform: "uppercase",
+                    letterSpacing: "0.1em",
+                  }}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
+          </nav>
+
+          {/* Partie droite — WhatsApp + Menu */}
+          <div className="flex items-center gap-4">
+            
+            {/* Bouton WhatsApp — Desktop uniquement */}
+            <a
+              href={createWhatsAppUrl()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`hidden md:inline-flex items-center gap-2 px-4 py-2 text-sm font-medium transition-all duration-300 hover:opacity-80 ${
+                currentSection === "dark" ? "text-white" : "text-[#2b2b2b]"
+              }`}
+            >
+              <MessageCircle size={18} />
+              CONTACTEZ-NOUS
+            </a>
+
+            {/* Menu hamburger */}
+            <button
+              onClick={() => setIsMenuOpen(true)}
+              className={`flex h-10 w-10 flex-col items-center justify-center gap-1.5 transition-opacity duration-300 hover:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C9952E] ${
+                currentSection === "dark" ? "text-white" : "text-[#2b2b2b]"
+              }`}
+              aria-label="Ouvrir le menu"
+            >
+              <Menu size={24} />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <MenuOverlay isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
+    </motion.nav>
+  );
+}

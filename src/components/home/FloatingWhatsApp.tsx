@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { MessageCircle } from "lucide-react";
 import { useState, useEffect } from "react";
 
 interface FloatingWhatsAppProps {
@@ -54,7 +55,7 @@ export function FloatingWhatsApp({ href, className = "" }: FloatingWhatsAppProps
       }}
     >
       <div className="gold-gradient-bg w-full h-full rounded-full flex items-center justify-center">
-        <span className="text-2xl md:text-3xl">💬</span>
+        <MessageCircle size={28} className="text-[var(--color-black)]" />
       </div>
       
       {/* Pulse animation */}

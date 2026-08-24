@@ -80,7 +80,8 @@
   }
   
   .gold-border {
-    @apply border-[1px] border-gradient-to-br from-[var(--color-gold-dark)] via-[var(--color-gold)] to-[var(--color-gold-highlight)];
+    @apply border-[1px];
+    border-image: linear-gradient(to bottom right, var(--color-gold-dark), var(--color-gold), var(--color-gold-highlight)) 1;
   }
   
   .gold-glow {

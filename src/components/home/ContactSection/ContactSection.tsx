@@ -1,19 +1,21 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Phone, MessageCircle, Mail, Globe, Heart, Music } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { GoldButton } from "@/components/ui/GoldButton";
 import { useState } from "react";
+import { createWhatsAppUrl } from "@/data/constants";
 
-// Contact data - to be configured with real values
+// Contact data - Official NOOREA coordinates
 const CONTACT_DATA = {
-  phone: "+33 1 23 45 67 89",
-  email: "contact@noorea.com",
-  whatsapp: "https://wa.me/33123456789",
+  phone: "+225 07 03 39 77 00",
+  phoneClean: "+2250703397700",
+  email: "aminatou@noorea.ci",
   socials: {
-    instagram: "https://instagram.com/noorea",
-    facebook: "https://facebook.com/noorea",
-    tiktok: "https://tiktok.com/@noorea",
+    instagram: "https://www.instagram.com/noorea.ci/",
+    facebook: "https://www.facebook.com/noorea.ci",
+    tiktok: "https://www.tiktok.com/@noorea.ci",
   },
 };
 
@@ -72,12 +74,12 @@ export function ContactSection() {
             className="flex flex-col items-center text-center p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-all duration-300 group"
           >
             <div className="w-16 h-16 gold-gradient-radial rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-              <span className="text-3xl">📞</span>
+              <Phone size={28} className="text-[var(--color-black)]" />
             </div>
             <h3 className="text-lg font-medium mb-2">TÉLÉPHONE</h3>
             <p className="text-[var(--color-sand)] mb-4">Appelez-nous</p>
             <a
-              href={`tel:${CONTACT_DATA.phone}`}
+              href={`tel:${CONTACT_DATA.phoneClean}`}
               className="gold-text text-xl font-medium hover:underline"
             >
               {CONTACT_DATA.phone}
@@ -93,13 +95,18 @@ export function ContactSection() {
             className="flex flex-col items-center text-center p-6 rounded-2xl bg-gradient-to-br from-[var(--color-gold-dark)] to-[var(--color-gold)] border-2 border-[var(--color-gold)] hover:scale-[1.02] transition-all duration-300 group"
           >
             <div className="w-16 h-16 bg-[var(--color-black)] rounded-full flex items-center justify-center mb-4">
-              <span className="text-3xl">💬</span>
+              <MessageCircle size={28} className="text-[var(--color-gold)]" />
             </div>
             <h3 className="text-lg font-medium text-[var(--color-black)] mb-2">WHATSAPP</h3>
             <p className="text-black/80 mb-4">Échangez directement avec NOOREA</p>
-            <GoldButton size="sm" className="bg-[var(--color-black)] text-[var(--color-gold-highlight)]">
+            <a
+              href={createWhatsAppUrl()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center px-6 py-3 bg-[var(--color-black)] text-[var(--color-gold-highlight)] rounded-full font-medium hover:bg-[var(--color-black)]/90 transition-colors"
+            >
               CONTACTER SUR WHATSAPP
-            </GoldButton>
+            </a>
           </motion.div>
 
           {/* Email */}
@@ -111,7 +118,7 @@ export function ContactSection() {
             className="flex flex-col items-center text-center p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-all duration-300 group"
           >
             <div className="w-16 h-16 gold-gradient-radial rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-              <span className="text-3xl">✉️</span>
+              <Mail size={28} className="text-[var(--color-black)]" />
             </div>
             <h3 className="text-lg font-medium mb-2">EMAIL</h3>
             <p className="text-[var(--color-sand)] mb-4">Écrivez-nous</p>
@@ -137,7 +144,7 @@ export function ContactSection() {
             className="flex flex-col items-center text-center p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-all duration-300 group"
           >
             <div className="w-16 h-16 gold-gradient-radial rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-              <span className="text-3xl">🌐</span>
+              <Globe size={28} className="text-[var(--color-black)]" />
             </div>
             <h3 className="text-lg font-medium mb-2">RÉSEAUX SOCIAUX</h3>
             <p className="text-[var(--color-sand)] mb-4">Suivez-nous</p>
@@ -149,7 +156,7 @@ export function ContactSection() {
                 className="text-[var(--color-gold)] hover:text-[var(--color-gold-highlight)] transition-colors"
                 aria-label="Instagram"
               >
-                📷
+                <Heart size={24} />
               </a>
               <a
                 href={CONTACT_DATA.socials.facebook}
@@ -158,7 +165,7 @@ export function ContactSection() {
                 className="text-[var(--color-gold)] hover:text-[var(--color-gold-highlight)] transition-colors"
                 aria-label="Facebook"
               >
-                👍
+                <Globe size={24} />
               </a>
               <a
                 href={CONTACT_DATA.socials.tiktok}
@@ -167,7 +174,7 @@ export function ContactSection() {
                 className="text-[var(--color-gold)] hover:text-[var(--color-gold-highlight)] transition-colors"
                 aria-label="TikTok"
               >
-                🎵
+                <Music size={24} />
               </a>
             </div>
           </motion.div>

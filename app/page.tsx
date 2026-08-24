@@ -27,7 +27,7 @@ export default function Home() {
       <Scene06 />
       <Scene07 />
       <ContactSection />
-      <FloatingWhatsApp href="https://wa.me/33123456789" />
+      <FloatingWhatsApp href="https://wa.me/2250703397700" />
     </>
   );
 }
